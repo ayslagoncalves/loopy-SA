@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loopy — Meu perfil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --page: #fffaf6;
+      --ink: #32102f;
+      --muted: #8d7d89;
+      --line: #eadbd8;
+      --coral: #fa685d;
+      --coral-dark: #f45e54;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--page); color: var(--ink); font-family: "DM Sans", sans-serif; }
+    .topbar { height: 75px; border-bottom: 1px solid var(--line); background: rgba(255,250,246,.98); }
+    .brand { font-size: 29px; font-weight: 700; letter-spacing: -2px; color: #35102f; text-decoration: none; line-height: 1; }
+    .brand span { color: var(--coral); }
+    .nav-links { height: 75px; gap: 39px; }
+    .nav-links a { color: #756a74; text-decoration: none; font-size: 13px; font-weight: 600; height: 75px; display: flex; align-items: center; position: relative; }
+    .nav-links a.active { color: var(--ink); }
+    .nav-links a.active:after { content:""; position:absolute; bottom:0; left:0; right:0; height:3px; border-radius:3px 3px 0 0; background:var(--coral); }
+    .avatar { width: 40px; height: 40px; border: 1px solid #e7c9c2; border-radius: 50%; padding: 3px; object-fit: cover; }
+    .page-wrap { max-width: 1125px; margin: 49px auto 16px; padding: 0 0; }
+    .eyebrow { color: #f05249; font-size: 11px; font-weight: 700; letter-spacing: 1.35px; margin-bottom: 15px; }
+    h1 { font-family: "Playfair Display", Georgia, serif; font-size: 40px; font-weight: 700; letter-spacing: -.8px; margin: 0 0 9px; color: #32102f; }
+    .subtitle { color: #867987; font-size: 12px; margin: 0; }
+    .completion { width: 210px; margin: 0 0 20px auto; }
+    .completion-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .completion strong { color: #f05249; font-size: 15px; }
+    .completion span { color: #8d7d89; font-size: 10px; }
+    .progress { height: 5px; background: #eadfdd; border-radius: 10px; }
+    .progress-bar { background: var(--coral); border-radius: 10px; }
+    .content-row { margin-top: 36px; }
+    .panel { border: 1px solid var(--line); border-radius: 20px; background: #fff; min-height: 560px; padding: 28px; }
+    .panel-title { font-size: 16px; font-weight: 500; margin: 0 0 6px; color: #3b1738; }
+    .hint { color: #918391; font-size: 10px; margin: 0; }
+    .photo-grid { display:grid; grid-template-columns: 1fr 1fr; grid-template-rows: 160px 160px; gap: 12px; margin-top: 22px; }
+    .photo-slot { border: 1px dashed #dfc9c4; border-radius: 16px; background: #fffaf6; display:flex; flex-direction:column; align-items:center; justify-content:center; color: #9a8290; font-size: 9px; cursor:pointer; overflow:hidden; position:relative; min-width:0; }
+    .photo-slot.main { grid-row: span 2; }
+    .photo-slot svg { width: 20px; height: 20px; stroke: var(--coral); stroke-width: 1.8; fill:none; margin-bottom: 8px; }
+    .photo-slot img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .photo-slot input { display:none; }
+    .photo-note { color:#a58c71; font-size:9px; margin-top:16px; }
+    .photo-note span { font-size:14px; margin-right:5px; }
+    .form-panel { padding: 28px; }
+    .field-label { display:flex; justify-content:space-between; font-size:12px; font-weight:700; margin:0 0 9px; color:#32102f; }
+    .counter { color:#8d7d89; font-size:9px; font-weight:400; }
+    .form-control { border:1px solid #eadbd8; border-radius:12px; color:#4d3b4b; font-family:inherit; font-size:12px; box-shadow:none !important; }
+    .form-control::placeholder { color:#93858f; opacity:1; }
+    textarea.form-control { height:112px; resize:vertical; padding:14px 16px; }
+    .section-field { margin-bottom:22px; }
+    .interest-add { border:1px dashed #e8c9c3; border-radius:20px; color:#f05e54; font-size:10px; padding:6px 12px; background:#fff; }
+    .interest-tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:9px; }
+    .interest-tag { background:#fff3ef; border-radius:20px; padding:5px 10px; font-size:10px; color:#754b68; }
+    .location-wrap { position:relative; }
+    .location-wrap .pin { position:absolute; left:15px; top:14px; color:var(--coral); font-size:17px; }
+    .location-wrap input { padding-left:42px; height:52px; }
+    .normal-input { height:52px; padding:0 16px; }
+    .form-actions { border-top:1px solid #eee2df; margin-top:22px; padding-top:20px; display:flex; align-items:center; justify-content:space-between; }
+    .delete-link { color:#dc625b; font-size:10px; text-decoration:underline; }
+    .save-btn { background:var(--coral); color:#fff; border:0; border-radius:28px; font-size:11px; font-weight:700; padding:14px 28px; min-width:150px; }
+    .save-btn:hover { background:var(--coral-dark); color:#fff; }
+    @media (max-width: 1199px) { .page-wrap { margin-left:24px; margin-right:24px; } }
+    @media (max-width: 767px) {
+      .topbar, .nav-links, .nav-links a { height:64px; }
+      .nav-links { gap:16px; }
+      .nav-links a { font-size:11px; }
+      .avatar { width:34px; height:34px; }
+      .page-wrap { margin:32px 16px 20px; }
+      h1 { font-size:34px; }
+      .completion { margin:24px 0 0; width:100%; max-width:240px; }
+      .content-row { margin-top:24px; }
+      .panel { min-height:unset; padding:22px; }
+      .photo-grid { grid-template-rows:140px 140px; }
+      .form-panel { margin-top:16px; }
+    }
+    @media (max-width: 420px) {
+      .brand { font-size:25px; }
+      .nav-links { gap:11px; }
+      .nav-links a { font-size:10px; }
+      .photo-grid { grid-template-rows:125px 125px; gap:8px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="container-fluid h-100 px-4 px-lg-5 d-flex align-items-center justify-content-between">
+      <a class="brand" href="#" aria-label="Loopy">loopy<span>.</span></a>
+      <div class="nav-links d-flex align-items-center">
+        <a href="#">Descobrir</a>
+        <a href="#">Matches</a>
+        <a href="#" class="active">Perfil</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-wrap">
+    <div class="row align-items-end g-3">
+      <div class="col-md-8">
+        <div class="eyebrow">SUA MELHOR VERSÃO</div>
+        <h1>Meu perfil</h1>
+        <p class="subtitle">Quanto mais autêntico, melhores as conexões.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="completion">
+          <div class="completion-top"><strong id="progressValue">20%</strong><span>Complete seu perfil</span></div>
+          <div class="progress"><div class="progress-bar" id="progressBar" style="width:20%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row content-row g-4">
+      <div class="col-lg-5">
+        <section class="panel h-100">
+          <h2 class="panel-title">Suas fotos</h2>
+          <p class="hint">Adicione até 3 fotos que mostrem quem você é.</p>
+          <div class="photo-grid">
+            <label class="photo-slot main">
+              <input type="file" accept="image/*" onchange="previewPhoto(this)">
+              <svg viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              <span>Adicionar foto<br>principal</span>
+            </label>
+            <label class="photo-slot">
+              <input type="file" accept="image/*" onchange="previewPhoto(this)">
+              <svg viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              <span>Adicionar foto</span>
+            </label>
+            <label class="photo-slot">
+              <input type="file" accept="image/*" onchange="previewPhoto(this)">
+              <svg viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              <span>Adicionar foto</span>
+            </label>
+          </div>
+          <p class="photo-note"><span>✧</span> Perfis com mais fotos recebem mais curtidas.</p>
+        </section>
+      </div>
+
+      <div class="col-lg-7">
+        <section class="panel form-panel h-100">
+          <form id="profileForm">
+            <div class="section-field">
+              <label class="field-label" for="about">Sobre mim <span class="counter"><span id="count">0</span>/300</span></label>
+              <textarea class="form-control" id="about" maxlength="300" placeholder="Conte um pouco sobre você, seus gostos e o que procura."></textarea>
+            </div>
+            <div class="section-field">
+              <div class="field-label">Meus interesses</div>
+              <button type="button" class="interest-add" onclick="addInterest()">+ Adicionar</button>
+              <div class="interest-tags" id="interestTags"></div>
+            </div>
+            <div class="section-field">
+              <label class="field-label" for="city">Localização</label>
+              <div class="location-wrap">
+                <span class="pin">♧</span>
+                <input class="form-control" id="city" placeholder="Sua cidade">
+              </div>
+            </div>
+            <div class="section-field mb-0">
+              <label class="field-label" for="job">Trabalho</label>
+              <input class="form-control normal-input" id="job" placeholder="Sua profissão">
+            </div>
+            <div class="form-actions">
+              <a class="delete-link" href="#" onclick="event.preventDefault(); if(confirm('Deseja realmente excluir seu perfil?')) alert('Ação demonstrativa.');">Excluir perfil</a>
+              <button type="submit" class="btn save-btn">Salvar alterações</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const about = document.getElementById('about');
+    about.addEventListener('input', () => {
+      document.getElementById('count').textContent = about.value.length;
+      updateProgress();
+    });
+    ['city', 'job'].forEach(id => document.getElementById(id).addEventListener('input', updateProgress));
+
+    function previewPhoto(input) {
+      const slot = input.closest('.photo-slot');
+      const old = slot.querySelector('img');
+      if (old) old.remove();
+      if (input.files && input.files[0]) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(input.files[0]);
+        img.alt = 'Foto selecionada';
+        slot.appendChild(img);
+      }
+      updateProgress();
+    }
+    function addInterest() {
+      const value = prompt('Qual é um dos seus interesses?');
+      if (!value || !value.trim()) return;
+      const tag = document.createElement('span');
+      tag.className = 'interest-tag';
+      tag.textContent = value.trim();
+      document.getElementById('interestTags').appendChild(tag);
+      updateProgress();
+    }
+    function updateProgress() {
+      let score = 20;
+      if (document.querySelector('.photo-slot img')) score += 30;
+      if (about.value.trim()) score += 20;
+      if (document.getElementById('interestTags').children.length) score += 10;
+      if (document.getElementById('city').value.trim()) score += 10;
+      if (document.getElementById('job').value.trim()) score += 10;
+      score = Math.min(score, 100);
+      document.getElementById('progressValue').textContent = score + '%';
+      document.getElementById('progressBar').style.width = score + '%';
+    }
+    document.getElementById('profileForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Alterações salvas! (Demonstração visual)');
+    });
+  </script>
+</body>
+</html>
